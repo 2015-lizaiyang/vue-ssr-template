@@ -21,7 +21,8 @@
     ]
   },
   "dependencies": {
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-server-renderer": "^2.5.17"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
