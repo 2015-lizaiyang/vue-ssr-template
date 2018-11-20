@@ -4,7 +4,7 @@
       "env",
       {
         "targets": {
-          "browsers": ["last 2 versions", "not ie <= 8"]
+          "browsers": ["last 2 versions", "not ie <= 11"]
         }
       }
     ]
@@ -19,6 +19,12 @@
         "regenerator": true
       }
     ],
-    ["import", { "libraryName": "ant-design-vue", "libraryDirectory": "es" }]
+    [
+      "import",
+      {
+        "libraryName": "ant-design-vue",
+        "libraryDirectory": "es"
+      }
+    ]
   ]
 }

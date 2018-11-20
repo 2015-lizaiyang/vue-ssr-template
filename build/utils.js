@@ -7,12 +7,12 @@ function assetsPath(_path) {
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
-// const NODE_ENV = process.env.NODE_ENV || 'development';
-// const isProd = NODE_ENV === 'production';
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const isProd = NODE_ENV === 'production';
 
 module.exports = {
   assetsPath,
   resolve,
-  // NODE_ENV,
-  // isProd,
+  NODE_ENV,
+  isProd,
 };

@@ -4,11 +4,11 @@
   "description": "A Vue.js project",
   "author": "bowen",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "lint": "eslint src/**/*.{js,vue} --fix && stylelint src/**/*.{scss,less,vue} --fix",
-    "build": "webpack --config build/webpack.prod.conf.js --progress",
-    "commitmsg": "commitlint -E GIT_PARAMS"
+    "start": "node dev",
+    "build": "npm run build:client && npm run build:server && rimraf dist && mv cache dist",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --hide-modules",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --hide-modules",
+    "lint": "eslint src/**/*.{js,vue} --fix && stylelint src/**/*.{scss,less,vue} --fix"
   },
   "lint-staged": {
     "**/*.{js,vue}": [
@@ -25,8 +25,6 @@
     "vue-server-renderer": "^2.5.17"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-angular": "^7.0.1",
     "autoprefixer": "^9.2.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -39,6 +37,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",
     "babel-preset-env": "^1.4.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -48,17 +47,19 @@
     "eslint-plugin-compat": "^2.5.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-vue": "^4.7.1",
-    "html-webpack-plugin": "^3.2.0",
+    "express": "^4.16.4",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "lint-staged": "^7.2.0",
+    "memory-fs": "^0.4.1",
     "mini-css-extract-plugin": "^0.4.4",
+    "null-loader": "^0.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.1.6",
     "postcss-url": "^7.2.1",
     "prettier": "^1.13.7",
-    "script-loader": "^0.7.2",
+    "serve-favicon": "^2.5.0",
     "stylelint": "^9.3.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-webpack-plugin": "^0.10.5",
@@ -68,18 +69,13 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.23.0",
-    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.4"
   },
   "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "node": ">= 8.0.0",
+    "npm": ">= 5.6.0"
+  }
 }
