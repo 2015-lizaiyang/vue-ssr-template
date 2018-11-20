@@ -5,7 +5,7 @@ const favicon = require('serve-favicon');
 const { createBundleRenderer } = require('vue-server-renderer');
 const setupDevServer = require('./build/setup-dev-server');
 
-const PORT = process.env.PORT || 721;
+const PORT = process.env.PORT || 7210;
 const resolve = file => path.resolve(__dirname, file);
 
 const app = express();
@@ -30,23 +30,25 @@ const readyPromise = setupDevServer(app, (bundle, options) => {
 });
 
 app.get('*', (req, res) => {
-  console.log(req.url);
+  console.log('\n', req.url);
   readyPromise
     .then(() => {
       const context = {
         title: 'Just SSR',
         url: req.url,
       };
-      console.log('renderer2', !!renderer);
-      renderer.renderToString(context, (err, html) => {
+      renderer.renderToString(context).then(html => {
         console.log(html);
         if (err) throw err;
         res.status(200).send(html);
+      }).catch(err => {
+        console.log(err);
+        res.end('error');
       });
       console.log('wtf');
     })
     .catch(err => {
       console.log(err);
-      res.end();
+      res.end('error');
     });
 });
