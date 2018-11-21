@@ -7,7 +7,7 @@ const baseConfig = require('./webpack.base.config');
 
 module.exports = merge(baseConfig, {
   target: 'node',
-  // devtool: '#source-map',
+  devtool: '#source-map',
   entry: './src/entry/server.js',
   output: {
     filename: 'server-bundle.js',
@@ -31,12 +31,6 @@ module.exports = merge(baseConfig, {
       },
     ],
   },
-  // stats: {
-  //   entrypoints: false,
-  //   children: false,
-  //   modules: false,
-  //   warnings: false,
-  // },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.VUE_ENV': '"server"',

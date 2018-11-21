@@ -11,6 +11,8 @@ const config = merge(baseConfig, {
   entry: {
     app: './src/entry/client.js',
   },
+  // devtool: isProd ? '#source-map' : '#cheap-module-source-map',
+  devtool: isProd ? false : '#cheap-module-source-map',
   module: {
     rules: [
       {

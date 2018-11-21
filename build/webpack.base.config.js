@@ -15,7 +15,6 @@ const baseConfig = {
     publicPath: `/`,
     filename: 'js/[name].[chunkhash].js',
   },
-  // devtool: isProd ? false : '#cheap-module-source-map',
   resolve: {
     extensions: ['*', '.js', '.json', '.vue', '.less'],
     alias: {
