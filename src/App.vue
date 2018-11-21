@@ -1,7 +1,17 @@
+<style lang="scss">
+#app {
+  width: min-content;
+  margin: 0 auto;
+}
+</style>
+
+<style src="./app.less"></style>
+
+
 <template>
   <div id="app">
     <input v-model="msg">
-    <p>{{ msg }}</p>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
