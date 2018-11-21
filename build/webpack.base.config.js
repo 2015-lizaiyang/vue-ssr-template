@@ -11,8 +11,8 @@ const baseConfig = {
     children: false,
   },
   output: {
-    path: resolve('just-ssr'),
-    publicPath: `/just-ssr/`,
+    path: resolve('cache'),
+    publicPath: `/`,
     filename: 'js/[name].[chunkhash].js',
   },
   // devtool: isProd ? false : '#cheap-module-source-map',

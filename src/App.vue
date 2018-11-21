@@ -1,7 +1,16 @@
 <template>
-  <div id="app">he</div>
+  <div id="app">
+    <input v-model="msg">
+    <p>{{ msg }}</p>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      msg: 'just ssr',
+    };
+  },
+};
 </script>

@@ -1,3 +1,3 @@
 import createApp from './main';
 
-export default () => createApp().app;
+export default context => createApp(context).app;

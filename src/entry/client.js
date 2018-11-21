@@ -1,3 +1,3 @@
 import createApp from './main';
 
-createApp().$mount('#app');
+createApp().app.$mount('#app');

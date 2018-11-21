@@ -7,6 +7,7 @@ const serverConfig = require('./webpack.server.config');
 
 const readFile = (fs, file) => {
   try {
+    // console.log(clientConfig.output.path);
     return fs.readFileSync(path.join(clientConfig.output.path, file), 'utf-8');
   } catch (e) {}
 };
@@ -19,7 +20,6 @@ module.exports = function setupDevServer(app, cb) {
     ready = r;
   });
   const update = () => {
-    console.log('update', !!bundle, !!clientManifest);
     if (bundle && clientManifest) {
       ready();
       cb(bundle, {
