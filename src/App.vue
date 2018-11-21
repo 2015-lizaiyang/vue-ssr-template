@@ -1,7 +1,10 @@
 <style lang="scss">
 #app {
-  width: min-content;
+  width: max-content;
   margin: 0 auto;
+  input {
+    width: -webkit-fill-available;
+  }
 }
 </style>
 
@@ -11,7 +14,7 @@
 <template>
   <div id="app">
     <input v-model="msg">
-    <h1>{{ msg }}</h1>
+    <p>{{ msg }}</p>
   </div>
 </template>
 
