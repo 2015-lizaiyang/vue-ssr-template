@@ -11,6 +11,7 @@ const resolve = file => path.resolve(__dirname, file);
 const app = express();
 
 app.use(favicon('./public/favicon.png'));
+// todo
 app.use('/dist', express.static(resolve('./dist'), 0));
 app.use('/cache', express.static(resolve('./cache'), 0));
 app.use('/public', express.static(resolve('./public'), 0));
@@ -20,7 +21,7 @@ const readyPromise = setupDevServer(app, (bundle, options) => {
   renderer = createBundleRenderer(bundle, {
     ...options,
     template: fs.readFileSync(resolve('./index.html'), 'utf-8'),
-    basedir: resolve('./dist'),
+    basedir: resolve('./dist'), // todo
     runInNewContext: false,
   });
 }).then(() => {
@@ -29,25 +30,19 @@ const readyPromise = setupDevServer(app, (bundle, options) => {
   });
 });
 
-app.get('*', (req, res) => {
+app.get('*', async (req, res) => {
   console.log('\n', req.url);
-  readyPromise
-    .then(() => {
-      // todo
-      const context = {
-        title: 'Just SSR',
-        url: req.url,
-      };
-      renderer.renderToString(context).then(html => {
-        res.status(200).send(html);
-      }).catch(err => {
-        console.log(err);
-        res.end('error');
-      });
-      console.log('wtf');
-    })
-    .catch(err => {
-      console.log(err);
-      res.end('error');
-    });
+  try {
+    await readyPromise;
+    // todo
+    const context = {
+      title: 'Just SSR',
+      url: req.url,
+    };
+    const html = await renderer.renderToString(context);
+    res.status(200).send(html);
+  } catch (err) {
+    console.log(err);
+    res.end('error');
+  }
 });
