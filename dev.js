@@ -5,15 +5,12 @@ const favicon = require('serve-favicon');
 const { createBundleRenderer } = require('vue-server-renderer');
 const setupDevServer = require('./build/setup-dev-server');
 
-const PORT = process.env.PORT || 7210;
+const PORT = process.env.PORT || 1432;
 const resolve = file => path.resolve(__dirname, file);
 
 const app = express();
 
 app.use(favicon('./public/favicon.png'));
-// todo
-// app.use('/dist', express.static(resolve('./dist'), 0));
-// app.use('/cache', express.static(resolve('./cache'), 0));
 app.use('/public', express.static(resolve('./public'), 0));
 
 let renderer;
@@ -22,16 +19,17 @@ const readyPromise = setupDevServer(app, (bundle, options) => {
     ...options,
     template: fs.readFileSync(resolve('./index.html'), 'utf-8'),
     basedir: resolve('./dist'), // todo
-    runInNewContext: false,
+    runInNewContext: 'once',
   });
 }).then(() => {
   app.listen(PORT, () => {
-    console.log(`server started at http://localhost:${PORT}`);
+    console.log(`> Listening at http://localhost:${PORT}\n`);
   });
 });
 
 app.get('*', async (req, res) => {
-  console.log('\n', req.url);
+  console.log(req.url);
+  const s = Date.now();
   try {
     await readyPromise;
     // todo
@@ -40,9 +38,10 @@ app.get('*', async (req, res) => {
       url: req.url,
     };
     const html = await renderer.renderToString(context);
-    res.status(200).send(html);
+    res.send(html);
+    console.log(`whole request: ${Date.now() - s}ms\n`);
   } catch (err) {
-    console.log(err);
-    res.end('error');
+    console.error(err);
+    res.end('500 | Internal Server Error');
   }
 });
