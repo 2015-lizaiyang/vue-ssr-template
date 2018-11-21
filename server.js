@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const lru = require('lru-cache');
 const favicon = require('serve-favicon');
 const { createBundleRenderer } = require('vue-server-renderer');
 
@@ -9,16 +10,28 @@ const resolve = file => path.resolve(__dirname, file);
 
 const app = express();
 
-app.use(favicon('./public/favicon.png'));
-app.use('/public', express.static(resolve('./public'), 0));
-app.use('/', express.static(resolve('./dist'), 0));
+const serve = (path1, cache) =>
+  express.static(resolve(path1), {
+    maxAge: cache && 1000 * 60 * 60 * 24 * 30,
+  });
 
-let renderer = createBundleRenderer(require('./dist/vue-ssr-server-bundle.json'), {
-  clientManifest: require('./dist/vue-ssr-client-manifest.json'),
-  template: fs.readFileSync(resolve('./index.html'), 'utf-8'),
-  basedir: resolve('./dist'),
-  runInNewContext: 'once',
-});
+app.use(favicon('./public/favicon.png'));
+app.use('/public', serve('./public', true));
+app.use('/', serve('./dist', true));
+
+const renderer = createBundleRenderer(
+  require('./dist/vue-ssr-server-bundle.json'),
+  {
+    clientManifest: require('./dist/vue-ssr-client-manifest.json'),
+    template: fs.readFileSync(resolve('./index.html'), 'utf-8'),
+    basedir: resolve('./dist'),
+    runInNewContext: 'once',
+    cache: lru({
+      max: 1000,
+      maxAge: 1000 * 60 * 15,
+    }),
+  },
+);
 
 app.get('*', async (req, res) => {
   console.log(req.url);
