@@ -12,8 +12,8 @@ const app = express();
 
 app.use(favicon('./public/favicon.png'));
 // todo
-app.use('/dist', express.static(resolve('./dist'), 0));
-app.use('/cache', express.static(resolve('./cache'), 0));
+// app.use('/dist', express.static(resolve('./dist'), 0));
+// app.use('/cache', express.static(resolve('./cache'), 0));
 app.use('/public', express.static(resolve('./public'), 0));
 
 let renderer;
